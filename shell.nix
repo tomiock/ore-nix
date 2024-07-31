@@ -6,10 +6,6 @@ stdenv.mkDerivation {
     pkgs.rustc
     pkgs.cargo
   ];
-  buildInputs = [
-    # Example Run-time Additional Dependencies
-    pkgs.openssl
-  ];
 
   packages = [
     pkgs.solana-cli
