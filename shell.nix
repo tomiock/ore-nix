@@ -1,14 +1,14 @@
 with import <nixpkgs> { };
 
+let
+  unstable = import <nixos-unstable> { };
+in
 stdenv.mkDerivation {
   name = "rust-env";
-  nativeBuildInputs = [
-    pkgs.rustc
-    pkgs.cargo
-  ];
-
-  packages = [
-    pkgs.solana-cli
+  buildInputs = [
+    unstable.rustPackages.cargo
+    unstable.solana-cli
+    pkgs.libiconv
   ];
 
   # Set Environment Variables
