@@ -1,20 +1,36 @@
 with import <nixpkgs> { };
-
 let
-  unstable = import <nixos-unstable> { };
+    #rust_channel = pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain;
+
+    unstableTarball =
+        fetchTarball
+        "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz";
+    unstable = import unstableTarball {};
 in
-stdenv.mkDerivation {
-  name = "rust-env";
-  buildInputs = [
-    unstable.rustPackages.cargo
-    unstable.solana-cli
-    pkgs.libiconv
-  ];
+pkgs.mkShell {
 
-  # Set Environment Variables
-  RUST_BACKTRACE = 1;
+    inputsFrom = [
+        /*
+        (rust_channel.override{
+            extensions = [ "rust-src" "rust-std" ];
+        })
+        */
 
-  shellHook = ''
-    cargo install ore-cli@1.0.0-alpha.6
-  '';
+        unstable.rustup
+        unstable.cargo
+        unstable.rustPackages.cargo
+        unstable.solana-cli
+        unstable.libiconv
+        llvmPackages.clang
+    ];
+
+    RUST_BACKTRACE = 1;
+
+    # compilation of -sys packages requires manually setting LIBCLANG_PATH
+    LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
+
+    shellHock = ''
+        echo "hola"
+        cargo install ore-cli
+    '';
 }
