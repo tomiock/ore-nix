@@ -15,13 +15,15 @@ pkgs.mkShell {
             extensions = [ "rust-src" "rust-std" ];
         })
         */
-
         unstable.rustup
         unstable.cargo
         unstable.rustPackages.cargo
-        unstable.solana-cli
         unstable.libiconv
         llvmPackages.clang
+    ];
+
+    packages = [
+        unstable.solana-cli
     ];
 
     RUST_BACKTRACE = 1;
