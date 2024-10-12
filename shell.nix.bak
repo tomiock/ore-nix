@@ -1,0 +1,25 @@
+with import <nixpkgs> { };
+
+let
+unstableTarball =
+    fetchTarball
+      "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz";
+  unstable = import unstableTarball {};
+in
+stdenv.mkDerivation {
+  name = "ore-env";
+  buildInputs = [
+    unstable.cargo
+    unstable.rustPackages.cargo
+    unstable.solana-cli
+    unstable.libiconv
+  ];
+
+  # Set Environment Variables
+  RUST_BACKTRACE = 1;
+
+  shellHook = ''
+    rustup default stable
+    cargo install ore-cli
+  '';
+}

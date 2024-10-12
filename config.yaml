@@ -1,0 +1,6 @@
+json_rpc_url: 'https://mainnet.helius-rpc.com/?api-key=b0c25792-f2b0-4a07-b430-032f8272f753'
+websocket_url: ''
+keypair_path: /home/tomiock/.config/solana/id.json
+address_labels:
+  '11111111111111111111111111111111': System Program
+commitment: confirmed
